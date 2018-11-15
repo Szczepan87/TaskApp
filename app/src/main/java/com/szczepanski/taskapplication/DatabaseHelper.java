@@ -3,6 +3,7 @@ package com.szczepanski.taskapplication;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -36,5 +37,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_0, task.getId());
         contentValues.put(COL_1, task.getName());
         contentValues.put(COL_2, task.getStatus());
+
+        long result = sqLiteDatabase.insert(TABLE_NAME,null,contentValues);
+
+        return result != -1;
+    }
+
+    public Cursor getData(){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        return sqLiteDatabase.rawQuery("SELECT * FROM " + TABLE_NAME, null);
     }
 }
