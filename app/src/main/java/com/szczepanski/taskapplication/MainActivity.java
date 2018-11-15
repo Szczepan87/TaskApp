@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -18,18 +19,19 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView listView;
-    TextView idTextView;
-    TextView nameTextView;
-    TextView statusTextView;
+    private ListView listView;
+    private TextView idTextView;
+    private TextView nameTextView;
+    private TextView statusTextView;
     Button statusButton;
     private List<Task> taskList;
+    private List<String> buttonNames;
+    private List<String> availableStatuses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        prepViews();
         prepData();
 
         ListView listView = findViewById(R.id.listView);
@@ -37,18 +39,20 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(listViewAdapter);
     }
 
-    private void prepViews(){
-        statusButton = findViewById(R.id.status_button);
+    private void prepButtons(){
+
+
     }
 
     private void prepData(){
+        availableStatuses = Arrays.asList("OPEN","TRAVELING","WORKING");
+        buttonNames = Arrays.asList("START TRAVEL","START WORK","STOP");
         taskList = new ArrayList<>();
         int[] IDs = new int[]{1,2,3,4,5};
         String[] names = new String[]{"Name 1","Name 2","Name 3","Name 4","Name 5"};
-        String[] stats = new String[]{"Status 1","Status 2","Status 3","Status 4","Status 5"};
 
         for (int i = 0; i < IDs.length; i++) {
-            taskList.add(new Task(IDs[i],names[i],stats[i]));
+            taskList.add(new Task(IDs[i],names[i],availableStatuses.get(0)));
         }
     }
 
@@ -77,10 +81,23 @@ public class MainActivity extends AppCompatActivity {
             idTextView = view.findViewById(R.id.id_textView);
             nameTextView = view.findViewById(R.id.name_textView);
             statusTextView = view.findViewById(R.id.status_textView);
+            statusButton = view.findViewById(R.id.status_button);
 
             idTextView.setText(String.valueOf(taskList.get(i).getId()));
             nameTextView.setText(taskList.get(i).getName());
             statusTextView.setText(taskList.get(i).getStatus());
+
+            switch (statusTextView.getText().toString()){
+                case "OPEN":
+                    statusButton.setText(buttonNames.get(0));
+                    break;
+                case "TRAVELING":
+                    statusButton.setText(buttonNames.get(1));
+                    break;
+                case "WORKING":
+                    statusButton.setText(buttonNames.get(2));
+                    break;
+            }
 
             return view;
         }
