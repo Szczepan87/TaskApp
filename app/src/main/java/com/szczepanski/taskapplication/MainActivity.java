@@ -6,16 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private List<String> availableStatuses;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prepData();
@@ -37,11 +33,27 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listView);
         ListViewAdapter listViewAdapter = new ListViewAdapter();
         listView.setAdapter(listViewAdapter);
+
+        statusButton = findViewById(R.id.status_button);
+        statusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isStatusChangePossible()){
+                    if (statusTextView.getText().toString().equals(availableStatuses.get(0)))
+                        statusTextView.setText(availableStatuses.get(1));
+                    else statusTextView.setText(availableStatuses.get(2));
+                }
+            }
+        });
     }
 
-    private void prepButtons(){
-
-
+    private boolean isStatusChangePossible() {
+        for (int i = 0; i < taskList.size(); i++) {
+            if (!taskList.get(i).getStatus().equals(availableStatuses.get(0))){
+                return false;
+            }
+        }
+        return true;
     }
 
     private void prepData(){
