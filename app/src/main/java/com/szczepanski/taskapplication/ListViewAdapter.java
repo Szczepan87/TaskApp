@@ -16,6 +16,7 @@ public class ListViewAdapter extends ArrayAdapter {
     private String[] statuses;
 
     public ListViewAdapter(Activity context, String[] IDs, String[] names, String[] statuses) {
+
         super(context, R.layout.listview_row, IDs);
 
         this.context = context;
@@ -28,9 +29,9 @@ public class ListViewAdapter extends ArrayAdapter {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.listview_row,null,true);
 
-        TextView ID = rowView.findViewById(R.id.task_Id_textView);
-        TextView name = rowView.findViewById(R.id.task_name_textView);
-        TextView status = rowView.findViewById(R.id.task_status_textView);
+        TextView ID = rowView.findViewById(R.id.id_textView);
+        TextView name = rowView.findViewById(R.id.name_textView);
+        TextView status = rowView.findViewById(R.id.status_textView);
 
         ID.setText(IDs[position]);
         name.setText(names[position]);
