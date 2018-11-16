@@ -111,12 +111,18 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 private boolean isStatusChangePossible() {
+                    int counter = 0;
+                    int index = -1;
 
                     for (int j = 0; j < taskList.size(); j++) {
-                        if (!taskList.get(j).getStatus().equals(availableStatuses.get(0)))
-                            return false;
+                        if (!taskList.get(j).getStatus().equals(availableStatuses.get(0))){
+                            counter++;
+                            index = j;
+                        }
                     }
-                    return true;
+                    if (counter<1) return true;
+                    else if (counter == 1 && index == i) return true;
+                    else return false;
                 }
             });
 
