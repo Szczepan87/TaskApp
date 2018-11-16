@@ -1,12 +1,12 @@
 package com.szczepanski.taskapplication;
 
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,17 +15,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView listView;
-    private TextView idTextView;
-    private TextView nameTextView;
     private List<Task> taskList;
     private List<String> buttonNames;
     private List<String> availableStatuses;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +38,17 @@ public class MainActivity extends AppCompatActivity {
         availableStatuses = Arrays.asList("OPEN", "TRAVELING", "WORKING");
         buttonNames = Arrays.asList("START TRAVEL", "START WORK", "STOP");
         taskList = new ArrayList<>();
-        int[] IDs = new int[]{1, 2, 3, 4, 5};
-        String[] names = new String[]{"Name 1", "Name 2", "Name 3", "Name 4", "Name 5"};
 
-        for (int i = 0; i < IDs.length; i++) {
-            taskList.add(new Task(IDs[i], names[i], availableStatuses.get(0)));
+        databaseHelper = new DatabaseHelper(MainActivity.this);
+        databaseHelper.addData(new Task(1, "Save the Queen!", availableStatuses.get(0)));
+        databaseHelper.addData(new Task(2, "Capture the terrorist!", availableStatuses.get(0)));
+        databaseHelper.addData(new Task(3, "Search for information!", availableStatuses.get(0)));
+        databaseHelper.addData(new Task(4, "Drive Aston Martin!", availableStatuses.get(0)));
+        databaseHelper.addData(new Task(5, "Kiss Moneypenny!", availableStatuses.get(0)));
+
+        Cursor cursor = databaseHelper.getData();
+        while (cursor.moveToNext()) {
+            taskList.add(new Task(cursor.getInt(0), cursor.getString(1), cursor.getString(2)));
         }
     }
 
@@ -72,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
 
             view = getLayoutInflater().inflate(R.layout.listview_row, null);
 
-            idTextView = view.findViewById(R.id.id_textView);
-            nameTextView = view.findViewById(R.id.name_textView);
+            TextView idTextView = view.findViewById(R.id.id_textView);
+            TextView nameTextView = view.findViewById(R.id.name_textView);
             final TextView statusTextView = view.findViewById(R.id.status_textView);
             final Button statusButton = view.findViewById(R.id.status_button);
 
@@ -129,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
                     statusButton.setText(buttonNames.get(2));
                     break;
             }
-
             return view;
         }
     }
