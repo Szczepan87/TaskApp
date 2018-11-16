@@ -70,19 +70,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getView(final int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View viewItem, ViewGroup viewGroup) {
 
-            view = getLayoutInflater().inflate(R.layout.listview_row, null);
+            viewItem = getLayoutInflater().inflate(R.layout.listview_row, null);
 
-            TextView idTextView = view.findViewById(R.id.id_textView);
-            TextView nameTextView = view.findViewById(R.id.name_textView);
-            final TextView statusTextView = view.findViewById(R.id.status_textView);
-            final Button statusButton = view.findViewById(R.id.status_button);
+            TextView idTextView = viewItem.findViewById(R.id.id_textView);
+            TextView nameTextView = viewItem.findViewById(R.id.name_textView);
+            final TextView statusTextView = viewItem.findViewById(R.id.status_textView);
+            final Button statusButton = viewItem.findViewById(R.id.status_button);
 
             idTextView.setText(String.valueOf(taskList.get(i).getId()));
             nameTextView.setText(taskList.get(i).getName());
             statusTextView.setText(taskList.get(i).getStatus());
+            setColors(viewItem, statusTextView);
 
+            final View finalViewItem = viewItem;
             statusButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     if (isStatusChangePossible()) {
                         switch (statusTextView.getText().toString()) {
                             case "OPEN":
+                                view.setBackgroundColor(getResources().getColor(R.color.colorOpen));
                                 taskList.get(i).setStatus(availableStatuses.get(1));
                                 statusTextView.setText(availableStatuses.get(1));
                                 statusButton.setText(buttonNames.get(1));
@@ -108,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     } else
                         Toast.makeText(MainActivity.this,
                                 "One of the tasks doesn't have open status!", Toast.LENGTH_SHORT).show();
+                    setColors(finalViewItem, statusTextView);
                 }
 
                 private boolean isStatusChangePossible() {
@@ -137,7 +141,21 @@ public class MainActivity extends AppCompatActivity {
                     statusButton.setText(buttonNames.get(2));
                     break;
             }
-            return view;
+            return viewItem;
+        }
+
+        private void setColors(View view, TextView statusTextView) {
+            switch (statusTextView.getText().toString()){
+                case "OPEN":
+                    view.setBackgroundColor(getResources().getColor(R.color.colorOpen));
+                    break;
+                case "TRAVELING":
+                    view.setBackgroundColor(getResources().getColor(R.color.colorTraveling));
+                    break;
+                case "WORKING":
+                    view.setBackgroundColor(getResources().getColor(R.color.colorWorking));
+                    break;
+            }
         }
     }
 }
