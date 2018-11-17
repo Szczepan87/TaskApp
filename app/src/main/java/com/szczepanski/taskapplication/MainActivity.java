@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private List<Task> taskList;
     private List<String> buttonNames;
     private List<String> availableStatuses;
-    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         buttonNames = Arrays.asList("START TRAVEL", "START WORK", "STOP");
         taskList = new ArrayList<>();
 
-        databaseHelper = new DatabaseHelper(MainActivity.this);
+        DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
         databaseHelper.addData(new Task(1, "Save the Queen!", availableStatuses.get(0)));
         databaseHelper.addData(new Task(2, "Capture the terrorist!", availableStatuses.get(0)));
         databaseHelper.addData(new Task(3, "Search for information!", availableStatuses.get(0)));
@@ -129,7 +128,11 @@ public class MainActivity extends AppCompatActivity {
                     else return false;
                 }
             });
+            setButtons(statusTextView, statusButton);
+            return viewItem;
+        }
 
+        private void setButtons(TextView statusTextView, Button statusButton) {
             switch (statusTextView.getText().toString()) {
                 case "OPEN":
                     statusButton.setText(buttonNames.get(0));
@@ -141,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
                     statusButton.setText(buttonNames.get(2));
                     break;
             }
-            return viewItem;
         }
 
         private void setColors(View view, TextView statusTextView) {
