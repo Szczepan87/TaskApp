@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    if (isStatusChangePossible()) {
+                    if (isStatusChangePossible(i)) {
                         switch (statusTextView.getText().toString()) {
                             case "OPEN":
                                 view.setBackgroundColor(getResources().getColor(R.color.colorOpen));
@@ -110,23 +110,24 @@ public class MainActivity extends AppCompatActivity {
                     setColors(finalViewItem, statusTextView);
                 }
 
-                private boolean isStatusChangePossible() {
-                    int counter = 0;
-                    int index = -1;
-
-                    for (int j = 0; j < taskList.size(); j++) {
-                        if (!taskList.get(j).getStatus().equals(availableStatuses.get(0))){
-                            counter++;
-                            index = j;
-                        }
-                    }
-                    if (counter<1) return true;
-                    else if (counter == 1 && index == i) return true;
-                    else return false;
-                }
             });
             setButtons(statusTextView, statusButton);
             return viewItem;
+        }
+
+        private boolean isStatusChangePossible(int i) {
+            int counter = 0;
+            int index = -1;
+
+            for (int j = 0; j < taskList.size(); j++) {
+                if (!taskList.get(j).getStatus().equals(availableStatuses.get(0))){
+                    counter++;
+                    index = j;
+                }
+            }
+            if (counter<1) return true;
+            else if (counter == 1 && index == i) return true;
+            else return false;
         }
 
         private void setTextsInViewItem(int option,TextView statusTextView, Button statusButton) {
