@@ -93,18 +93,15 @@ public class MainActivity extends AppCompatActivity {
                             case "OPEN":
                                 view.setBackgroundColor(getResources().getColor(R.color.colorOpen));
                                 taskList.get(i).setStatus(availableStatuses.get(1));
-                                statusTextView.setText(availableStatuses.get(1));
-                                statusButton.setText(buttonNames.get(1));
+                                setTextsInViewItem(1, statusTextView, statusButton);
                                 break;
                             case "TRAVELING":
                                 taskList.get(i).setStatus(availableStatuses.get(2));
-                                statusButton.setText(buttonNames.get(2));
-                                statusTextView.setText(availableStatuses.get(2));
+                                setTextsInViewItem(2, statusTextView, statusButton);
                                 break;
                             case "WORKING":
                                 taskList.get(i).setStatus(availableStatuses.get(0));
-                                statusButton.setText(buttonNames.get(0));
-                                statusTextView.setText(availableStatuses.get(0));
+                                setTextsInViewItem(0, statusTextView, statusButton);
                                 break;
                         }
                     } else
@@ -130,6 +127,11 @@ public class MainActivity extends AppCompatActivity {
             });
             setButtons(statusTextView, statusButton);
             return viewItem;
+        }
+
+        private void setTextsInViewItem(int option,TextView statusTextView, Button statusButton) {
+            statusTextView.setText(availableStatuses.get(option));
+            statusButton.setText(buttonNames.get(option));
         }
 
         private void setButtons(TextView statusTextView, Button statusButton) {
