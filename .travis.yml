@@ -12,3 +12,6 @@ android:
 branches:
   only:
   - master
+  
+  script:
+    git update-index --chmod=+x gradlew
