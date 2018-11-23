@@ -1,9 +1,5 @@
 language: android
 
-
- before_install:
-  - chmod +x gradlew
-
 android:
   components:
     - platform-tools
@@ -13,6 +9,9 @@ android:
     - android-28
     - extra-google-m2repository
     - extra-android-m2repository
+
+before_install:
+  - chmod +x gradlew
 
 branches:
   only:
