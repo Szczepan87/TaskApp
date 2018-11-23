@@ -1,4 +1,9 @@
 language: android
+
+
+ before_install:
+  - chmod +x gradlew
+
 android:
   components:
     - platform-tools
@@ -12,6 +17,3 @@ android:
 branches:
   only:
   - master
- 
- before_install:
-  - chmod +x gradlew
